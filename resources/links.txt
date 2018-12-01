@@ -1,0 +1,15 @@
+Making Audio Reactive Visuals
+
+	Types of Live Visuals:
+Manual – live controlling visuals with keyboard or midi controls.
+Sequencing – pre-analyzing the music and scripting an animation as a list of timecoded events.
+Midi Input –  if you have access to the music’s midi data, this can be a great way to drive visuals.
+Audio Reactive – code driven visuals that automatically adapt to a live audio input.
+
+	Audio Reactive
+Volume – the thicker bar on the right hand side
+Waveform – the jagged white line
+Levels – the bar chart of frequency amplitudes, from bass on the left to treble on the right.
+Beat Detection – the volume bar flashes white when a beat is detected. The white line above the 
+
+https://www.airtightinteractive.com/2013/10/making-audio-reactive-visuals/

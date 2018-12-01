@@ -1,0 +1,84 @@
+.mixer {
+	margin-top: 1vh;
+	margin-left: 2vw;
+}
+
+.new-channel-button {
+	display: inline-block;
+	box-shadow: 1pt 2pt 2pt 1pt rgba(0, 0, 0, 0.1);
+	border: solid 1px rgba(0, 0, 0, 0.4);
+	padding: 1rem 1rem;
+	border-radius: 3px;
+	margin-top: 2rem;
+}
+
+.section-title {
+	display: inline-block;
+	padding: 0.6rem 1rem;
+	box-shadow: 1pt 2pt 2pt 1pt rgba(0, 0, 0, 0.1);
+	border: solid 1px rgba(0, 0, 0, 1);	
+}
+
+.channel-icon {
+	margin-right: 1rem;
+}
+
+.channel-icon:hover {
+	cursor: pointer;
+}
+
+.new-channel-button:hover {
+	cursor: pointer;
+}
+
+.channel {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1.4rem;
+}
+
+.channel-data {
+	box-shadow: 1pt 2pt 2pt 1pt rgba(0, 0, 0, 0.1);
+	display: flex;
+	border: solid 1px rgba(0, 0, 0, 0.4);
+	
+}
+
+.channel-tab {
+	width: 100%;
+	padding: 0.4rem 1.3rem;
+
+}
+
+.channel-num {
+	border-left: solid 1px rgba(0, 0, 0, 0.4);
+}
+
+.channels-moves-enter {
+  opacity: 0.01;
+}
+
+.channels-moves-enter.channels-moves-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.channels-moves-leave {
+  opacity: 1;
+}
+
+.channels-moves-leave.channels-moves-leave-active {
+  opacity: 0.01;
+  transition: opacity 250ms ease-in;
+}
+
+.audio-upload {
+	white-space: nowrap;
+	text-decoration: underline;
+}
+
+.audio-upload:hover {
+	cursor: pointer;
+	color: #3949ab;
+	font-weight: bold;
+}

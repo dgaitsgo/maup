@@ -1,0 +1,18 @@
+.header {
+	left: 0;
+	top: 0;
+	width: 10vw;
+	height: 10vh;
+	position : fixed;
+	background-color: #bbdefb;
+	box-shadow: 1pt 2pt 2pt 1pt rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.header-title {
+	font-family: 'Quicksand', sans-serif;
+	color: black;
+	font-size: 2rem;
+}

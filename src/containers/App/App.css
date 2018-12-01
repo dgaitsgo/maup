@@ -1,0 +1,39 @@
+.app-container {
+	
+}
+
+.header {
+	left:0;
+	right:0;
+	margin: 2rem auto;
+	width: 96vw;
+	height: 10vh;
+	box-shadow: 1pt 2pt 2pt 1pt rgba(0, 0, 0, 0.1);
+	border: solid 1px rgba(0, 0, 0, 0.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.third {
+
+	width: 33vw;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.header-title {
+	font-family: 'Roboto', sans-serif;
+	font-weight: italic;
+	font-size: 2rem;
+}
+
+.content {
+	margin-top: 2vh;
+}
+
+.left {
+	width: 50%;
+}

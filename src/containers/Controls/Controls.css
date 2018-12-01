@@ -1,0 +1,30 @@
+.controls {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 10vh;
+}
+
+.control-button {
+	font-size : 3rem;
+}
+
+.control-button:hover {
+	cursor: pointer;
+}
+
+.control-button.inactive:hover {
+	cursor: not-allowed;
+}
+
+.control-button {
+	color: #616161;
+}
+
+.control-button.inactive {
+	color: #eeeeee;
+}
+
+.recording {
+	color: #f50057;
+}
