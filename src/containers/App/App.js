@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
+import p5 from 'p5'
 
 import Controls from 'containers/Controls'
 import Mixer from 'containers/Mixer'
+import Visuals from 'containers/Visuals'
 
 import './App.css'
 
 class App extends Component {
-	
+
 	constructor() {
 		super()
 		this.state = {
@@ -22,7 +24,7 @@ class App extends Component {
 	}
 
 	// componentDidMount() {
-		
+
 	// 	this.hydrateStateWithLocalStorage()
 	// 	// add event listener to save state to localStorage
 	// 	// when user leaves/refreshes the page
@@ -50,7 +52,7 @@ class App extends Component {
 	}
 
 	hydrateStateWithLocalStorage = () => {
-		
+
 		// for all items in state
 		for (let key in this.state) {
 			// if the key exists in localStorage
@@ -87,16 +89,16 @@ class App extends Component {
 		let sources = []
 
 		channels.forEach( (channel) => {
-			
+
 			let source = this.audioContext.createBufferSource()
 			source.buffer = channel.buffer
 			source.connect(this.audioContext.destination)
 			source.start(0)
 			sources.push(source)
 		})
-		
+
 		this.setState({ playing : true, sources })
-			
+
 	}
 
 	onClickStop = () => {
@@ -113,7 +115,7 @@ class App extends Component {
 	}
 
 	removeChannel = id => {
-		
+
 		const { channels } = this.state
 		let nextChannels = []
 
@@ -131,11 +133,11 @@ class App extends Component {
 
 		if (files.length === 0)
 			return ;
-		
+
 		let nextChannels = [...this.state.channels]
 
 		for (let i = 0; i < files.length; i++) {
-				
+
 			let audioFile = files[i]
 			let fileReader = new FileReader()
 
@@ -145,7 +147,7 @@ class App extends Component {
 				this.waitingForFiles += 1
 
 				let file = e.target.result
-				
+
 				this.audioContext.decodeAudioData(file, (buffer) => {
 
 					nextChannels.push({
@@ -193,7 +195,7 @@ class App extends Component {
 
 	render() {
 
-		const { 
+		const {
 			recording,
 			playing,
 			channels
@@ -211,6 +213,8 @@ class App extends Component {
 							channels={channels} />
 					</div>
 					<div className='right'>
+						<div id='p5-canvas'></div>
+						<Visuals _p5={p5} drawStack={[]} config={{ width : 500, height : 500 }} />
 					</div>
 				</div>
 			</div>
