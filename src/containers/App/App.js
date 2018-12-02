@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-// import Header from 'components/Header'
 import Controls from 'containers/Controls'
 import Mixer from 'containers/Mixer'
 
@@ -13,10 +12,67 @@ class App extends Component {
 		this.state = {
 			recording : false,
 			playing : false,
-			channels : [ { id : 1, type : 'empty', 'name' : '' } ]
+			channels : []
+		}
+
+		let AudioContext = window.AudioContext || window.webkitAudioContext
+		this.audioContext = new AudioContext()
+		this.fileReader = new FileReader()
+		this.waitingForFiles = 0
+	}
+
+	// componentDidMount() {
+		
+	// 	this.hydrateStateWithLocalStorage()
+	// 	// add event listener to save state to localStorage
+	// 	// when user leaves/refreshes the page
+	// 	window.addEventListener(
+	// 		"beforeunload",
+	// 		this.saveStateToLocalStorage
+	// 	)
+	// }
+
+	// componentWillUnmount() {
+	// 	window.removeEventListener(
+	// 		"beforeunload",
+	// 		this.saveStateToLocalStorage
+	// 	)
+	// }
+
+	/*************************************************************/
+	//Local Storage
+	//Implimentation details :
+	//https://hackernoon.com/how-to-take-advantage-of-local-storage-in-your-react-projects-a895f2b2d3f2
+	/*************************************************************/
+	saveStateToLocalStorage = () => {
+		console.log('hello')
+		window.localStorage.setItem('channels', JSON.stringify(this.state.channels))
+	}
+
+	hydrateStateWithLocalStorage = () => {
+		
+		// for all items in state
+		for (let key in this.state) {
+			// if the key exists in localStorage
+			if (window.localStorage.hasOwnProperty(key)) {
+				// get the key's value from localStorage
+				let value = localStorage.getItem(key)
+
+				// parse the localStorage string and setState
+				try {
+					value = JSON.parse(value);
+					this.setState({ [key]: value })
+				} catch (e) {
+					// handle empty string
+					this.setState({ [key]: value })
+				}
+			}
 		}
 	}
 
+	/*************************************************************/
+	//Functional
+	/*************************************************************/
 	onClickRecord = () => {
 
 		const { recording } = this.state
@@ -25,11 +81,35 @@ class App extends Component {
 	}
 
 	onClickPlay = () => {
-		this.setState({ playing : true })
+
+		const { channels } = this.state
+
+		let sources = []
+
+		channels.forEach( (channel) => {
+			
+			let source = this.audioContext.createBufferSource()
+			source.buffer = channel.buffer
+			source.connect(this.audioContext.destination)
+			source.start(0)
+			sources.push(source)
+		})
+		
+		this.setState({ playing : true, sources })
+			
 	}
 
 	onClickStop = () => {
-		this.setState({ playing : false, recording : false })
+
+		const { sources } = this.state
+
+		sources.forEach( source => source.stop(0) )
+
+		this.setState({
+			playing : false,
+			recording : false,
+			sources : []
+		})
 	}
 
 	removeChannel = id => {
@@ -43,17 +123,50 @@ class App extends Component {
 
 	}
 
-	newEmptyChannel = () => {
-		
-		let { channels } = this.state
-
-		channels.push({ id : channels.length + 1, type : 'empty', 'name' : '' })
-
-		this.setState({
-			channels
-		})
+	updateChannels = channels => {
+		this.setState({ newChannels : true, channels })
 	}
 
+	newChannels = (files) => {
+
+		if (files.length === 0)
+			return ;
+		
+		let nextChannels = [...this.state.channels]
+
+		for (let i = 0; i < files.length; i++) {
+				
+			let audioFile = files[i]
+			let fileReader = new FileReader()
+
+			fileReader.readAsArrayBuffer(audioFile)
+			fileReader.onload = e => {
+
+				this.waitingForFiles += 1
+
+				let file = e.target.result
+				
+				this.audioContext.decodeAudioData(file, (buffer) => {
+
+					nextChannels.push({
+						id : this.waitingForFiles + nextChannels.length,
+						file : file,
+						buffer : buffer,
+						name : audioFile.name
+					})
+				})
+
+				if (this.waitingForFiles === files.length) {
+					this.waitingForFiles = 0
+					this.updateChannels(nextChannels)
+				}
+			}
+		}
+	}
+
+	/*************************************************************/
+	//Presentation
+	/*************************************************************/
 	getHeader = ({ playing, recording }) =>
 		<div className='header'>
 			<div className='third'>
@@ -74,6 +187,9 @@ class App extends Component {
 			</div>
 		</div>
 
+	/*************************************************************/
+	//Render
+	/*************************************************************/
 
 	render() {
 
@@ -90,8 +206,9 @@ class App extends Component {
 					<div className='left'>
 						<Mixer
 							removeChannel={this.removeChannel}
-							newChannel={this.newEmptyChannel}
-							channels={channels}/>
+							newChannels={this.newChannels}
+							uploadAudio={this.uploadAudio}
+							channels={channels} />
 					</div>
 					<div className='right'>
 					</div>

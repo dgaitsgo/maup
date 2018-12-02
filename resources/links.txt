@@ -13,3 +13,7 @@ Levels – the bar chart of frequency amplitudes, from bass on the left to trebl
 Beat Detection – the volume bar flashes white when a beat is detected. The white line above the 
 
 https://www.airtightinteractive.com/2013/10/making-audio-reactive-visuals/
+
+
+Scheduling
+https://www.html5rocks.com/en/tutorials/audio/scheduling/
